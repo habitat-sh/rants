@@ -23,7 +23,7 @@ pin-project = "0.4.17"
 rand = "0.7.2"
 serde = { version = "1.0.101", features = ["derive"] }
 serde_json = "1.0.40"
-tokio = { version = "0.2.1", features = ["dns", "io-util", "macros", "stream", "sync", "rt-core", "time", "tcp"] }
+tokio = { version = "0.2.1", features = ["dns", "io-util", "macros", "stream", "sync", "rt-core", "rt-threaded", "time", "tcp"] }
 tokio-util = { version = "0.2.0", features = ["codec"] }
 uuid = { version = "0.7.4", features = ["v4"] }
 
