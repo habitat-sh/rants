@@ -598,7 +598,7 @@ impl SyncClient {
             subscriptions: HashMap::new(),
             request_inbox_mapping: HashMap::new(),
             request_wildcard_subscription: None,
-            request_base_inbox: Uuid::new_v4().to_simple().to_string(),
+            request_base_inbox: Uuid::new_v4().simple().to_string(),
         }
     }
 
@@ -1476,7 +1476,7 @@ impl Request {
     async fn new(wrapped_client: Arc<Mutex<SyncClient>>) -> Result<Self> {
         let inbox_uuid = Uuid::new_v4();
         let client = wrapped_client.lock().await;
-        let request_inbox = inbox_uuid.to_simple();
+        let request_inbox = inbox_uuid.simple();
         let reply_to: Subject = format!(
             "{}.{}.{}",
             util::INBOX_PREFIX,
