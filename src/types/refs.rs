@@ -26,7 +26,7 @@ impl<T: ?Sized> DerefMut for StableMutexGuard<'_, T> {
 ///
 /// The mutex is held for the entire lifetime of this reference so the lifetime of the reference
 /// should not be long lived.
-pub struct ClientRef<'a, T: ?Sized>(pub(crate) OwningRef<StableMutexGuard<'a, SyncClient>, T>);
+pub struct ClientRef<'a, T: ?Sized>(pub(crate) OwningRef<'a, StableMutexGuard<'a, SyncClient>, T>);
 
 impl<'a, T: ?Sized> Deref for ClientRef<'a, T> {
     type Target = T;
@@ -41,7 +41,7 @@ impl<'a, T: ?Sized> Deref for ClientRef<'a, T> {
 /// The mutex is held for the entire lifetime of this reference so the lifetime of the reference
 /// should not be long lived.
 pub struct ClientRefMut<'a, T: ?Sized>(
-    pub(crate) OwningRefMut<StableMutexGuard<'a, SyncClient>, T>,
+    pub(crate) OwningRefMut<'a, StableMutexGuard<'a, SyncClient>, T>,
 );
 
 impl<'a, T: ?Sized> Deref for ClientRefMut<'a, T> {
