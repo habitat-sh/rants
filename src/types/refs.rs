@@ -12,13 +12,13 @@ unsafe impl<'a, T: ?Sized> StableAddress for StableMutexGuard<'a, T> {}
 impl<T: ?Sized> Deref for StableMutexGuard<'_, T> {
     type Target = T;
     fn deref(&self) -> &T {
-        &*self.0
+        &self.0
     }
 }
 
 impl<T: ?Sized> DerefMut for StableMutexGuard<'_, T> {
     fn deref_mut(&mut self) -> &mut T {
-        &mut *self.0
+        &mut self.0
     }
 }
 
@@ -32,7 +32,7 @@ impl<'a, T: ?Sized> Deref for ClientRef<'a, T> {
     type Target = T;
 
     fn deref(&self) -> &T {
-        &*self.0
+        &self.0
     }
 }
 
@@ -48,12 +48,12 @@ impl<'a, T: ?Sized> Deref for ClientRefMut<'a, T> {
     type Target = T;
 
     fn deref(&self) -> &T {
-        &*self.0
+        &self.0
     }
 }
 
 impl<'a, T: ?Sized> DerefMut for ClientRefMut<'a, T> {
     fn deref_mut(&mut self) -> &mut T {
-        &mut *self.0
+        &mut self.0
     }
 }
