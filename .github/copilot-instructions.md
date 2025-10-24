@@ -102,6 +102,7 @@ When implementing tasks, follow this comprehensive workflow:
 - Push changes: `git push origin <jiraId>`
 - Create PR using GitHub CLI: `gh pr create --title "<jiraId>: <summary>" --body "<html_formatted_description>"`
 - Add label "runtest:all:stable" to the PR: `gh pr edit <pr_number> --add-label "runtest:all:stable"`
+- Add label "ai-assisted" to the PR: `gh pr edit <pr_number> --add-label "ai-assisted"`
 
 #### PR Description Format
 Use HTML tags for formatting the PR description:
@@ -117,6 +118,9 @@ Use HTML tags for formatting the PR description:
 
 <h2>Testing</h2>
 <p>Description of tests added/modified and coverage impact</p>
+
+<h2>AI Assistance</h2>
+<p>This work was completed with AI assistance following Progress AI policies</p>
 
 <h2>Jira</h2>
 <p>Relates to: <a href="[jira_url]">[JiraID]</a></p>
@@ -183,6 +187,15 @@ When implementing any task:
 6. **Document** ➜ Update relevant documentation
 7. **Review** ➜ Self-review for completeness and quality
 8. **Branch & PR** ➜ Create branch, commit, and PR (if requested)
+9. **Update JIRA Ticket** ➜ **MANDATORY**: Update JIRA ticket after successful PR creation
+
+### JIRA Ticket Update Process
+After successful PR creation, **MANDATORY** step to update JIRA ticket:
+- Use the **atlassian-mcp-server** MCP server to update the JIRA ticket programmatically
+- Update custom field `customfield_11170` ("Does this Work Include AI Assisted Code?") to "Yes"
+- **CRITICAL**: Use correct field format: `{"customfield_11170": {"value": "Yes"}}`
+- Verify the field update was successful
+- This step ensures proper tracking of AI-assisted work for compliance and reporting
 
 ## Final Notes
 - This is a production-grade library used by other Rust projects
