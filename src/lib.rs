@@ -702,7 +702,7 @@ impl SyncClient {
                 .cloned()
                 .collect::<Vec<_>>();
             let addresses_len = addresses.len() as u64;
-            addresses.shuffle(&mut rand::thread_rng());
+            addresses.shuffle(&mut rand::rng());
             (addresses_len, addresses.into_iter().cycle())
         };
 
