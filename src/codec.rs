@@ -4,7 +4,7 @@ mod tests;
 #[allow(unused_imports)]
 use bytes::{BufMut, BytesMut};
 use log::trace;
-use std::{io, mem, str, usize};
+use std::{io, mem, str};
 use tokio_util::codec::Decoder;
 
 use crate::{
