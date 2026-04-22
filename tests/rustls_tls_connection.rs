@@ -5,8 +5,8 @@ mod common;
 mod test {
     use super::common::{self, NatsServer};
     use rants::{
-        rustls::{Certificate, ClientConfig, RootCertStore},
         Client,
+        rustls::{Certificate, ClientConfig, RootCertStore},
     };
     use std::{fs::File, io::BufReader};
 

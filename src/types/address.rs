@@ -1,4 +1,4 @@
-use serde::{de, Deserialize, Deserializer};
+use serde::{Deserialize, Deserializer, de};
 use std::{fmt, str::FromStr};
 
 use super::Authorization;
@@ -86,10 +86,10 @@ impl FromStr for Address {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         // Parse the protocol
         let (maybe_protocol, rest) = util::split_before(s, util::NETWORK_SCHEME_SEPARATOR);
-        if let Some(protocol) = maybe_protocol {
-            if protocol != util::NATS_NETWORK_SCHEME {
-                return Err(Error::InvalidNetworkScheme(String::from(protocol)));
-            }
+        if let Some(protocol) = maybe_protocol
+            && protocol != util::NATS_NETWORK_SCHEME
+        {
+            return Err(Error::InvalidNetworkScheme(String::from(protocol)));
         }
 
         if rest.is_empty() {

@@ -1,7 +1,7 @@
 mod common;
 
 use common::NatsServer;
-use rants::{error::Error, Client, Subject};
+use rants::{Client, Subject, error::Error};
 
 async fn make_subscription(client: Client, subject: &Subject) {
     let mut subscription = client.subscribe(subject, 1).await.unwrap().1;

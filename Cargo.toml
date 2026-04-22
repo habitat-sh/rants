@@ -8,7 +8,7 @@ keywords = ["client", "nats", "pub-sub", "messaging", "queue"]
 categories = ["asynchronous", "api-bindings", "database-implementations", "network-programming", "parser-implementations"]
 readme = "README.md"
 license = "MIT OR Apache-2.0"
-edition = "2018"
+edition = "2024"
 exclude = ["rust-toolchain", ".vscode"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -20,10 +20,10 @@ log = "0.4.17"
 nom = "7.1.1"
 safer_owning_ref = "0.5.0"
 pin-project = "1.0.11"
-rand = "0.8.5"
+rand = "*"
 serde = { version = "1.0.140", features = ["derive"] }
 serde_json = "1.0.81"
-tokio = { version = "1.20.1", features = ["io-util", "macros", "sync", "time", "net"] }
+tokio = { version = "1.20.1", features = ["io-util", "macros", "rt", "sync", "time", "net"] }
 tokio-util = { version = "0.7.3", features = ["codec"] }
 tokio-stream = { version = "0.1.9", features = ["sync"] }
 uuid = { version = "1.1.2", features = ["v4"] }

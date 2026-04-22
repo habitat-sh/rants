@@ -102,8 +102,8 @@ pub use tokio::sync::{
 };
 
 pub use crate::types::{
-    error, Address, Authorization, ClientRef, ClientRefMut, ClientState, Connect, Info, Msg,
-    ProtocolError, Sid, Subject, SubjectBuilder, Subscription,
+    Address, Authorization, ClientRef, ClientRefMut, ClientState, Connect, Info, Msg,
+    ProtocolError, Sid, Subject, SubjectBuilder, Subscription, error,
 };
 
 const TCP_SOCKET_DISCONNECTED_MESSAGE: &str = "TCP socket was disconnected";
@@ -125,14 +125,14 @@ pub type DelayGenerator = Box<dyn Fn(&Client, u64, u64) -> Duration + Send>;
 /// # Arguments
 ///
 /// * `connect_series_attempts_before_cool_down` - A `connect_series` is an attempt to try all
-/// addresses: those explicitly [specified](struct.Client.html#method.addresses_mut) and
-/// those received in an `INFO` message's [`connect_urls`](struct.Info.html#method.connect_urls).
-/// This variable defines how many `connect_series` to try before delaying for the `cool_down`
-/// duration
+///   addresses: those explicitly [specified](struct.Client.html#method.addresses_mut) and
+///   those received in an `INFO` message's [`connect_urls`](struct.Info.html#method.connect_urls).
+///   This variable defines how many `connect_series` to try before delaying for the `cool_down`
+///   duration
 /// * `connect_delay` - The delay between each connect attempt.
 /// * `connect_series_delay` - The delay after a complete `connect_series`.
 /// * `cool_down_delay` - The delay after completing `connect_series_attempts_before_cool_down`
-/// attempts.
+///   attempts.
 pub fn generate_delay_generator(
     connect_series_attempts_before_cool_down: u64,
     connect_delay: Duration,
@@ -140,10 +140,10 @@ pub fn generate_delay_generator(
     cool_down: Duration,
 ) -> DelayGenerator {
     Box::new(move |_: &Client, connect_attempts: u64, addresses: u64| {
-        if connect_attempts % (addresses * connect_series_attempts_before_cool_down) == 0 {
+        if connect_attempts.is_multiple_of(addresses * connect_series_attempts_before_cool_down) {
             trace!("Using cool down delay {}s", cool_down.as_secs_f32());
             cool_down
-        } else if connect_attempts % addresses == 0 {
+        } else if connect_attempts.is_multiple_of(addresses) {
             trace!(
                 "Using connect series delay {}s",
                 connect_series_delay.as_secs_f32()
@@ -449,7 +449,7 @@ impl Client {
     /// # Arguments
     /// * `sid` - The subscription id to unsubscribe from
     /// * `max_msgs` - Unsubscribe after receiving the specified number of messages. If this is
-    /// `None`, the subscription is immediately unsubscribed.
+    ///   `None`, the subscription is immediately unsubscribed.
     pub async fn unsubscribe_optional_max_msgs(
         &self,
         sid: Sid,
@@ -702,7 +702,7 @@ impl SyncClient {
                 .cloned()
                 .collect::<Vec<_>>();
             let addresses_len = addresses.len() as u64;
-            addresses.shuffle(&mut rand::thread_rng());
+            addresses.shuffle(&mut rand::rng());
             (addresses_len, addresses.into_iter().cycle())
         };
 
@@ -1196,10 +1196,10 @@ impl SyncClient {
             client.state_transition(StateTransition::ToDisconnected)
         {
             let mut stream = reader.into_inner().unsplit(writer);
-            if let Err(e) = stream.shutdown().await {
-                if e.kind() != ErrorKind::NotConnected {
-                    error!("Failed to shutdown TCP stream, err: {}", e);
-                }
+            if let Err(e) = stream.shutdown().await
+                && e.kind() != ErrorKind::NotConnected
+            {
+                error!("Failed to shutdown TCP stream, err: {}", e);
             }
         } else {
             // We should always have a writer to close
