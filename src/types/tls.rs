@@ -11,7 +11,7 @@ use tokio::net::TcpStream;
 #[cfg(feature = "native-tls")]
 pub use tokio_native_tls::{TlsConnector, TlsStream};
 #[cfg(feature = "rustls-tls")]
-pub use tokio_rustls::{client::TlsStream, TlsConnector};
+pub use tokio_rustls::{TlsConnector, client::TlsStream};
 
 pub async fn tls_stream(
     tls_config: TlsConfig,

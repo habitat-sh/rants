@@ -4,20 +4,20 @@
 mod tests;
 
 use nom::{
+    IResult,
     branch::alt,
     bytes::complete::{is_not, tag, tag_no_case, take_until},
     character::complete::{digit1, space1},
     combinator::{all_consuming, cut, map_res, opt},
     multi::separated_list1,
     sequence::delimited,
-    IResult,
 };
 use std::str::FromStr;
 
 use crate::{
     types::{
-        error::{Error, Result},
         Info, ProtocolError, ServerControl, Sid, Subject,
+        error::{Error, Result},
     },
     util,
 };

@@ -5,8 +5,8 @@ mod common;
 mod test {
     use super::common::{self, NatsServer};
     use rants::{
-        native_tls::{Certificate, TlsConnector},
         Client,
+        native_tls::{Certificate, TlsConnector},
     };
     use std::{fs::File, io::Read};
 

@@ -9,8 +9,8 @@ use tokio_util::codec::Decoder;
 
 use crate::{
     types::{
-        error::{Error, Result},
         Msg, ServerControl, ServerMessage, Sid, Subject,
+        error::{Error, Result},
     },
     util::MESSAGE_TERMINATOR,
 };

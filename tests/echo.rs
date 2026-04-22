@@ -18,11 +18,13 @@ async fn echo() {
 
     // Trying to publish before connecting should result in a not connected error
     let subject = "test".parse().unwrap();
-    assert!(client
-        .publish(&subject, b"test")
-        .await
-        .unwrap_err()
-        .not_connected());
+    assert!(
+        client
+            .publish(&subject, b"test")
+            .await
+            .unwrap_err()
+            .not_connected()
+    );
 
     // Configure it to echo messages so we can receive messages we sent
     client
